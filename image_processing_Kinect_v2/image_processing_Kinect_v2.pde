@@ -9,6 +9,7 @@
 import org.openkinect.freenect.*;
 import org.openkinect.freenect2.*;
 import org.openkinect.processing.*;
+import java.util.Date;
 
 
 Kinect2 kinect;
@@ -49,14 +50,14 @@ void draw() {
       
       //200 miliisecond delay so as to not save too many RBG images
       if(millis() > timeRGB + 200) {
-        kinect.getVideoImage().save(directory + "RGB\\" + millis()); 
+        kinect.getVideoImage().save(directory + "RGB\\" + timestamp()); 
       }
       
       
       //500 miliisecond delay so as to not save too many grayscale images,
       //without this delay DepthMap images would change very slowly creating a bad data set
       if(millis() > timeGrayscale + 500) {
-        kinect.getDepthImage().save(directory + "Grayscale\\" + millis());
+        kinect.getDepthImage().save(directory + "Grayscale\\" + timestamp());
         timeGrayscale = millis();
         grayscale++; //increasing the counter so we keep track of how many images have been done so far
       }
@@ -70,4 +71,10 @@ void draw() {
   fill(255);
   text(
     "Grayscale Images: " + grayscale, 660, 100, 280, 250); //show how many images have been done so we can have consistent takes
+}
+
+//function for creating the timstamps
+long timestamp() {
+  Date d = new Date();
+  return d.getTime();
 }
